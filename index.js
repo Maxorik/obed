@@ -11,9 +11,10 @@ bot.on('message', msg => {
         .get('https://velum-song-list-default-rtdb.firebaseio.com/songs.json')
         .then(res => {
             console.log(res);
-            let rand = Math.floor(Math.random() * Math.floor(17)),
-                key = Object.keys(res)[rand];
-            bot.sendMessage(chatId, `ОГО это же, ${res[key].songName}!`)
+            let list = res.data,
+                rand = Math.floor(Math.random() * Math.floor(17)),
+                key = Object.keys(list)[rand];
+            bot.sendMessage(chatId, `ОГО это же, ${list[key].songName}!`)
         })
         .catch(error => {
             console.error(error);
