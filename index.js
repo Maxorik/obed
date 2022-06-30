@@ -1,31 +1,25 @@
 const TelegramApi = require('node-telegram-bot-api');
 const token = '5586636515:AAFpLAV-BtLPkKCu3rRKNfSsdk12N8KL7dU';
 const bot = new TelegramApi(token, {polling: true});
+const axios = require('axios');
 
 bot.on('message', msg => {
     const text = msg.text;
     const chatId = msg.chat.id;
 
-    bot.sendMessage(chatId, `обработка`)
-
-    fetch('https://velum-song-list-default-rtdb.firebaseio.com/songs.json')
-        .then((response) => {
-            bot.sendMessage(chatId, `произошел фетч`)
-            return response.json();
-        })
-        .then((data) => {
-            bot.sendMessage(chatId, `произошел респонс`)
+    axios
+        .get('https://velum-song-list-default-rtdb.firebaseio.com/songs.json')
+        .then(res => {
+            console.log(res);
             let rand = Math.floor(Math.random() * Math.floor(17)),
-                key = Object.keys(data)[rand];
-            try{
-                bot.sendMessage(chatId, `ОГО это же, ${data[key].songName}!`)
-            } catch (e) {
-                bot.sendMessage(chatId, `что-то пошло не так ${e}`)
-            }
-
+                key = Object.keys(res)[rand];
+            bot.sendMessage(chatId, `ОГО это же, ${res[key].songName}!`)
+        })
+        .catch(error => {
+            console.error(error);
         });
 
-    bot.sendMessage(chatId, `Привет, ${msg.from.first_name}!`)
+    // bot.sendMessage(chatId, `Привет, ${msg.from.first_name}!`)
 });
 
 // import { initializeApp } from "firebase/app";
