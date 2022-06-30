@@ -16,8 +16,9 @@ bot.on('message', msg => {
             return response.json();
         })
         .then((data) => {
-            let rand = Math.floor(Math.random() * Math.floor(17));
-            bot.sendMessage(chatId, `ОГО это же, ${data[rand].songName}!`)
+            let rand = Math.floor(Math.random() * Math.floor(17)),
+                key = Object.keys(data)[rand];
+            bot.sendMessage(chatId, `ОГО это же, ${data[key].songName}!`)
         });
 
     bot.sendMessage(chatId, `Привет, ${msg.from.first_name}!`)
