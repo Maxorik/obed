@@ -2,23 +2,23 @@ const TelegramApi = require('node-telegram-bot-api');
 const token = '5586636515:AAFpLAV-BtLPkKCu3rRKNfSsdk12N8KL7dU';
 const bot = new TelegramApi(token, {polling: true});
 
-const settings = {
-    apiSonglist: 'https://velum-song-list-default-rtdb.firebaseio.com/songs',
-    getUrl:      'https://velum-song-list-default-rtdb.firebaseio.com/songs.json'
-};
-
 bot.on('message', msg => {
     const text = msg.text;
     const chatId = msg.chat.id;
 
-    fetch(settings.getUrl)
+    fetch('https://velum-song-list-default-rtdb.firebaseio.com/songs.json')
         .then((response) => {
             return response.json();
         })
         .then((data) => {
             let rand = Math.floor(Math.random() * Math.floor(17)),
                 key = Object.keys(data)[rand];
-            bot.sendMessage(chatId, `ОГО это же, ${data[key].songName}!`)
+            try{
+                bot.sendMessage(chatId, `ОГО это же, ${data[key].songName}!`)
+            } catch (e) {
+                bot.sendMessage(chatId, `что-то пошло не так ${e}`)
+            }
+
         });
 
     bot.sendMessage(chatId, `Привет, ${msg.from.first_name}!`)
