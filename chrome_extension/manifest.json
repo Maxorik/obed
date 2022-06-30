@@ -1,0 +1,17 @@
+{
+	"manifest_version": 2,
+	"name": "taco_infotecs_controller",
+	"version": "1.0",
+	"author": "maxorik",
+	"browser_action": {
+		"default_title": "включить тако-рассылку",
+		"default_popup": "index.html"
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://www.obed.ru/restaurant/mr-tako/"],
+			"js": ["taco_getter.js"]
+		}
+	],
+	"permissions": ["activeTab"]
+}
