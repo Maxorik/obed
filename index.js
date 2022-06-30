@@ -15,7 +15,7 @@ bot.on('message', msg => {
         .then(res => {
             let list = res.data,
                 key = Object.keys(list)[0];
-            bot.sendMessage(chatId, `Привет, ${msg.from.first_name}! <br /> Ссылка на сегодняшний заказ, ${res.data[key].code}`)
+            bot.sendMessage(chatId, `Привет, ${msg.from.first_name}! \n Ссылка на сегодняшний заказ: ${res.data[key].code}`)
         })
         .catch(error => {
             console.error(error);
