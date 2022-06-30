@@ -6,11 +6,15 @@ bot.on('message', msg => {
     const text = msg.text;
     const chatId = msg.chat.id;
 
+    bot.sendMessage(chatId, `обработка`)
+
     fetch('https://velum-song-list-default-rtdb.firebaseio.com/songs.json')
         .then((response) => {
+            bot.sendMessage(chatId, `произошел фетч`)
             return response.json();
         })
         .then((data) => {
+            bot.sendMessage(chatId, `произошел респонс`)
             let rand = Math.floor(Math.random() * Math.floor(17)),
                 key = Object.keys(data)[rand];
             try{
