@@ -3,15 +3,11 @@ const token = '5586636515:AAFpLAV-BtLPkKCu3rRKNfSsdk12N8KL7dU';
 const bot = new TelegramApi(token, {polling: true});
 const axios = require('axios');
 
-// bot.sendMessage(msg.from.id, "Main menu", {reply_markup: keyboards.main_menu.reply_keyboard});
-
-
-
 bot.on('message', msg => {
     const chatId = msg.chat.id;
 
     axios
-        .get('https://velum-song-list-default-rtdb.firebaseio.com/obed.json')
+        .get('https://somedata-e3056-default-rtdb.firebaseio.com/obed.json')
         .then(res => {
             let list = res.data,
                 key = Object.keys(list)[0];
