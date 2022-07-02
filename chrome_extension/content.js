@@ -4,15 +4,16 @@ chrome.runtime.onMessage.addListener(
         if(data.data.state) {
             alert('Рассылка включена');
 
-            const getCodeHour = 7; // время получения кода заказа - 7 утра
-            let today = new Date();
+            // TODO нужно ли обновлять ссылку только раз в день?
+            // const getCodeHour = 7; // время получения кода заказа - 7 утра
+            // let today = new Date();
+            // // дата получения новой ссылки
+            // let dayX = today.getHours() < getCodeHour ? new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7, 0, 0, 0) :
+            //     new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 7, 0, 0, 0);
+            // // задержка для таймера
+            // let delay = dayX.getTime() - today.getTime();
 
-            // дата получения новой ссылки
-            let dayX = today.getHours() < getCodeHour ? new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 7, 0, 0, 0) :
-                new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7, 0, 0, 0);
-
-            // задержка для таймера
-            let delay = dayX - today;
+            let delay = 3600000;
 
             // запускаем ежедневное обновление кода ссылки для заказа
             let linkTimer = setTimeout(function getLink() {
@@ -20,7 +21,7 @@ chrome.runtime.onMessage.addListener(
                 if(btn) {
                     btn.click();
                     setTimeout(() => {
-                        let btn2 = document.querySelector('#invite-button');
+                        const btn2 = document.querySelector('#invite-button');
                         btn2.click();
                         setTimeout(() => {
                             let codeInput = document.querySelector('#hash-url');
@@ -41,11 +42,11 @@ chrome.runtime.onMessage.addListener(
                                 });
                             })
 
-                        }, 1000);
-                    }, 1000);
+                        }, 2000);
+                    }, 2000);
                 } else console.log('а где кнопка, не понел');
 
-                delay = 86400000; // задержка - сутки
+                delay = 3600000; // задержка - сутки
                 linkTimer = setTimeout(getLink, delay);
             }, delay);
         }
