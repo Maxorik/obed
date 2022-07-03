@@ -14,19 +14,19 @@ bot.on('message', msg => {
             let list = res.data,
                 key = Object.keys(list)[0];
             linkMessage = res.data[key].code;
-            bot.sendMessage(chatId, `${msg.from.first_name}, привет! \nСсылка на сегодняшний заказ: ${linkMessage}`)
+            bot.sendMessage(chatId, `${msg.from.first_name}, привет! \nСсылка на сегодняшний заказ: ${linkMessage}\nСледующая ссылка придет завтра, в 9:00`)
+
         })
         .catch(error => {
             console.error(error);
         });
 
-    let sendMessageTask = cron.schedule('9 11 * * *', () => {
-        bot.sendMessage(chatId, `${msg.from.first_name}, ЗДАРОВА! \nСсылка на сегодняшний заказ: ${linkMessage}`);
+    // рассылка линка, каждый день в 09:00
+    let sendMessageTask = cron.schedule('0 2 * * *', () => {
+        const today = new Date();
+        const weekDay = new Date().toLocaleString('ru', { weekday: 'long' });
+        const parsedDate = `${today.getDate()}.${today.getDay()}.${today.getFullYear()}, ${weekDay}`;
+        bot.sendMessage(chatId, `${parsedDate}\n${msg.from.first_name}, привет! \nСсылка на сегодняшний заказ: ${linkMessage}`);
     });
     sendMessageTask.start();
-
-    let sendMessageTask2 = cron.schedule('1 * * * *', () => {
-        bot.sendMessage(chatId, `${msg.from.first_name}, ЗДАРОВА КАРТА! \nСсылка на сегодняшний заказ: ${linkMessage}`);
-    });
-    sendMessageTask2.start();
 });
