@@ -18,15 +18,15 @@ bot.on('message', msg => {
             console.error(error);
         });
 
-    let sendMessageTask = cron.schedule('1 11 * * *', () => {
+    let sendMessageTask = cron.schedule('4 11 * * *', () => {
         bot.sendMessage(chatId, `${msg.from.first_name}, ЗДАРОВА! \nСсылка на сегодняшний заказ: ${res.data[key].code}`);
     });
 
-    sendMessageTask2.start();
+    sendMessageTask.start();
 
     let sendMessageTask2 = cron.schedule('1 * * * *', () => {
         bot.sendMessage(chatId, `${msg.from.first_name}, ЗДАРОВА КАРТА! \nСсылка на сегодняшний заказ: ${res.data[key].code}`);
     });
 
-    sendMessageTask.start();
+    sendMessageTask2.start();
 });
