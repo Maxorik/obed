@@ -18,7 +18,7 @@ bot.on('message', msg => {
             console.error(error);
         });
 
-    let sendMessageTask = cron.schedule('59 10 * * *', () => {
+    let sendMessageTask = cron.schedule('1 11 * * *', () => {
         bot.sendMessage(chatId, `${msg.from.first_name}, ЗДАРОВА! \nСсылка на сегодняшний заказ: ${res.data[key].code}`);
     });
 
