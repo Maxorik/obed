@@ -6,27 +6,27 @@ const cron = require('node-cron');
 
 bot.on('message', msg => {
     const chatId = msg.chat.id;
+    let linkMessage = '';
 
     axios
         .get('https://somedata-e3056-default-rtdb.firebaseio.com/obed.json')
         .then(res => {
             let list = res.data,
                 key = Object.keys(list)[0];
-            bot.sendMessage(chatId, `${msg.from.first_name}, привет! \nСсылка на сегодняшний заказ: ${res.data[key].code}`)
+            linkMessage = res.data[key].code;
+            bot.sendMessage(chatId, `${msg.from.first_name}, привет! \nСсылка на сегодняшний заказ: ${linkMessage}`)
         })
         .catch(error => {
             console.error(error);
         });
 
-    let sendMessageTask = cron.schedule('4 11 * * *', () => {
-        bot.sendMessage(chatId, `${msg.from.first_name}, ЗДАРОВА! \nСсылка на сегодняшний заказ: ${res.data[key].code}`);
+    let sendMessageTask = cron.schedule('9 11 * * *', () => {
+        bot.sendMessage(chatId, `${msg.from.first_name}, ЗДАРОВА! \nСсылка на сегодняшний заказ: ${linkMessage}`);
     });
-
     sendMessageTask.start();
 
     let sendMessageTask2 = cron.schedule('1 * * * *', () => {
-        bot.sendMessage(chatId, `${msg.from.first_name}, ЗДАРОВА КАРТА! \nСсылка на сегодняшний заказ: ${res.data[key].code}`);
+        bot.sendMessage(chatId, `${msg.from.first_name}, ЗДАРОВА КАРТА! \nСсылка на сегодняшний заказ: ${linkMessage}`);
     });
-
     sendMessageTask2.start();
 });
