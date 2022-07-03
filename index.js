@@ -16,11 +16,11 @@ bot.on('message', msg => {
     let linkMessage = '';
 
     if(text === '/info') {
-        bot.sendMessage(chatId, `Каждый день в 9 утра сюда будет приходить ссылка для заказа в Тако.\n
-                                     Перейдя по ней, можно выбрать себе обед.\n
-                                     Ссылка актуальна 2 часа, в 11:00 заказ отправляется!\n
-                                     Если бот надоел, нажми по нему правой кнопкой мыши и выбери "Остановить и блокировать"\n
-                                     Вновь начать пользоваться ботом можно будет в любой момент.`)
+        bot.sendMessage(chatId, 'Каждый день в 9 утра сюда будет приходить ссылка для заказа в Тако.\n' +
+                                    'Перейдя по ней, можно выбрать себе обед.\n' +
+                                    'Ссылка актуальна 2 часа, в 11:00 заказ отправляется!\n' +
+                                    'Если бот надоел, нажми по нему правой кнопкой мыши и выбери "Остановить и блокировать"\n' +
+                                    'Вновь начать пользоваться ботом можно будет в любой момент.')
     }
 
     if(text === '/start') {
@@ -39,7 +39,7 @@ bot.on('message', msg => {
 
         // рассылка линка, каждый день в 09:00
         // let sendMessageTask = cron.schedule('0 2 * * *', () => {
-        let sendMessageTask = cron.schedule('1 13 * * *', () => {
+        let sendMessageTask = cron.schedule('5 13 * * *', () => {
             const today = new Date();
             const weekDay = new Date().toLocaleString('ru', { weekday: 'long' });
             const parsedDate = `${today.getDate()}.${today.getDay()}.${today.getFullYear()}, ${weekDay}`;
