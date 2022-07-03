@@ -39,7 +39,7 @@ bot.on('message', msg => {
 
         // рассылка линка, каждый день в 09:00
         // let sendMessageTask = cron.schedule('0 2 * * *', () => {
-        let sendMessageTask = cron.schedule('5 13 * * *', () => {
+        let sendMessageTask = cron.schedule('7 12 * * *', () => {
             const today = new Date();
             const weekDay = new Date().toLocaleString('ru', { weekday: 'long' });
             const parsedDate = `${today.getDate()}.${today.getDay()}.${today.getFullYear()}, ${weekDay}`;
