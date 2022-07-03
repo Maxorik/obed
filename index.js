@@ -38,11 +38,10 @@ bot.on('message', msg => {
             });
 
         // рассылка линка, каждый день в 09:00
-        // let sendMessageTask = cron.schedule('0 2 * * *', () => {
-        let sendMessageTask = cron.schedule('9 12 * * *', () => {
+        let sendMessageTask = cron.schedule('0 2 * * *', () => {
             const today = new Date();
             const weekDay = new Date().toLocaleString('ru', { weekday: 'long' });
-            const parsedDate = `${today.getDate()}\\${today.getMonth()}\\${today.getFullYear()}, ${weekDay}`;
+            const parsedDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}, ${weekDay}`;
             bot.sendMessage(chatId, `${parsedDate}\n${msg.from.first_name}, привет! \nСсылка на сегодняшний заказ: ${linkMessage}`);
         });
         sendMessageTask.start();
