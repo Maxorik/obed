@@ -46,4 +46,6 @@ bot.on('message', msg => {
         });
         sendMessageTask.start();
     }
+
+    else console.log(text);
 });
