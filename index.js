@@ -23,7 +23,7 @@ bot.on('message', msg => {
                                     'Вновь начать пользоваться ботом можно будет в любой момент.')
     }
 
-    if(text === '/start') {
+    if(text === '/start' || text === '/start s') {
         axios
             .get('https://somedata-e3056-default-rtdb.firebaseio.com/obed.json')
             .then(res => {
