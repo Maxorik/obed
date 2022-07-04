@@ -4,19 +4,32 @@ chrome.runtime.onMessage.addListener(
         if(data.data.state) {
             alert('Рассылка включена');
 
-            // TODO нужно ли обновлять ссылку только раз в день?
-            // const getCodeHour = 7; // время получения кода заказа - 7 утра
-            // let today = new Date();
-            // // дата получения новой ссылки
-            // let dayX = today.getHours() < getCodeHour ? new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7, 0, 0, 0) :
-            //     new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 7, 0, 0, 0);
-            // // задержка для таймера
-            // let delay = dayX.getTime() - today.getTime();
+            let today = new Date();
+            let todayWasSend = false; // флаг - была ли ссылка отправлена сегодня
+            let thisDay = today.getDate();
 
-            let delay = 3600000;
+            // раз в минуту проверяем время
+            // если 8 утра - получаем ссылку на заказ
+            // откладываем отправку на 11 утра
+            let checkHour = setTimeout(function getTime(){
+                let today = new Date();
+                console.log('tick!');
+                if((!todayWasSend && today.getHours() === 8)) {
+                    todayWasSend = true;
+                    getLink();
+                    setTimeout(getOrder, 3600000*3); // пытаемся отправить заказ через 3 часа
+                }
+                if(today.getDate() > thisDay) { // наступил следующий день, сбрасываем параметры
+                    console.log('new day is coming!');
+                    todayWasSend = false;
+                    thisDay = today.getDate();
+                }
+                checkHour = setTimeout(getTime, 60000);
+            },60000)
 
-            // запускаем ежедневное обновление кода ссылки для заказа
-            let linkTimer = setTimeout(function getLink() {
+            // обновить ссылку на бэкенде
+            function getLink() {
+                console.log('getting new link...', new Date());
                 const btn = document.querySelector('.b-basket__bulk-order-button-invite.js-group-add-opener');
                 if(btn) {
                     btn.click();
@@ -45,10 +58,19 @@ chrome.runtime.onMessage.addListener(
                         }, 2000);
                     }, 2000);
                 } else console.log('а где кнопка, не понел');
+            }
 
-                delay = 3600000; // задержка - сутки
-                linkTimer = setTimeout(getLink, delay);
-            }, delay);
+            // отправить заказ
+            function getOrder() {
+                console.log('try to post order ', new Date());
+                try {
+                    const orderBtn = document.querySelector('.b-basket__ordering');
+                    orderBtn.click();
+                } catch (e) {
+                    console.log('error in posting! ', e);
+                    // POST - заказ не отправлен
+                }
+            }
         }
     }
 );
