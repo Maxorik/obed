@@ -10,39 +10,14 @@ const download = require('image-downloader');
 // базовые команды
 bot.setMyCommands([
     {command: '/start', description: 'Запуск бота'},
-    {command: '/info', description: 'Как все работает?'},
-    {command: '/cats', description: 'Секретная опция :3'},
+    {command: '/info', description: 'Как все работает?'}
 
-])
+]);
 
 bot.on('message', msg => {
     const chatId = msg.chat.id;
     const text = msg.text;
     let linkMessage = '';
-
-    //тест картинок
-    if(text === '/cats') {
-        const client = new imageSearch('ffeb8f3554ef89179', 'AIzaSyC36DzU-UZZGyp1cro1rr13Y2em_ZFgDuA');
-        const options = {page:1};
-        let imgPath = '';
-        client.search('boobs', options)
-            .then(images => {
-                const options1 = {
-                    url: images[0].url,
-                    dest: './public/img',               // will be saved to /path/to/dest/image.jpg
-                };
-
-                download.image(options1)
-                    .then(({ filename }) => {
-                        imgPath = filename;
-                        console.log('Saved to', filename); // saved to /path/to/dest/image.jpg
-                    })
-                    .catch((err) => console.error(err));
-            })
-            .catch(error => console.log(error));
-
-        bot.send_photo(chatId, open(imgPath, 'rb'));
-    }
 
     if(text === '/info') {
         bot.sendMessage(chatId, 'Каждый день в 9 утра сюда будет приходить ссылка для заказа в Тако.\n' +
