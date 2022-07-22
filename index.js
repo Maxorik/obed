@@ -4,9 +4,6 @@ const bot = new TelegramApi(token, {polling: true});
 const axios = require('axios');
 const cron = require('node-cron');
 
-const imageSearch = require('image-search-google');
-const download = require('image-downloader');
-
 // базовые команды
 bot.setMyCommands([
     {command: '/start', description: 'Запуск бота'},
